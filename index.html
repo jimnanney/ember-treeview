@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>TreeView Example</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="treeview.css" />
+  </head>
+  <body>
+    <script type="text/x-handlebars" data-template-name="node">
+      <div {{bind-attr class="depthName"}}>
+      {{#if hasChildren}}
+        <div class="nowrapping">
+      <a href="#" class="expandLink" {{action "toggle" this}}>
+      {{#if expanded}}
+        &#x25BC;
+      {{else}}
+        &#x25B6;
+      {{/if}}
+        </a>
+      {{input type="checkbox" checked=visible}}
+      {{#link-to 'details' id}}
+        <span {{bind-attr class="expanded"}} >Branch-{{id}} V: {{visible}}</span>
+      {{/link-to}}
+      </div>
+      {{else}}
+        <span class="leaf">Leaf-{{id}}</span>
+      {{/if}}
+        </div>
+    </script>
+    <script type="text/x-handlebars">
+      <h1>Ember TreeView</h1>
+      <h4>Shown Items: {{shownCount}}</h4>
+      <h4>Hidden Items: {{hiddenCount}}</h4>
+      {{ember-list itemViewClass='node' contentBinding="model" height=500 rowHeight=30 width=275 elementWidth=400}}
+      <div>
+      {{outlet}}
+      </div>
+    </script>
+    <script type="text/x-handlebars" data-template-name="details">
+      <h1>Details</h1>
+      <p>length: {{model.length}}</p>
+      {{#each node in model}}
+        <div {{bind-attr class="node.hasChildren:folder:item"}}>
+          <p>{{#if node.hasChildren}}Branch-{{else}}Leaf-{{/if}}{{node.id}}</p>
+        </div>
+      {{/each}}
+    </script>
+    <script src="Raf.js"></script>
+    <script src="Animate.js"></script>
+    <script src="Scroller.js"></script>
+    <script src="EasyScroller.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="handlebars-v2.0.0.js"></script>
+    <script src="ember.js"></script>
+    <script src="list-view.js"></script>
+    <script src="treeview.js"></script>
+  </body>
+</html>
